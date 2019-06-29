@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.provider.MediaStore.Audio.Albums;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.Images.Thumbnails;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 
 import com.mogujie.tt.utils.Logger;
 
@@ -24,7 +26,7 @@ import java.util.Map.Entry;
  * @author Nana
  * @date 2014-5-6
  */
-public class AlbumHelper {
+public class AlbumHelper implements ActivityCompat.OnRequestPermissionsResultCallback{
     Context context = null;
     ContentResolver contentResolver = null;
 
@@ -362,6 +364,11 @@ public class AlbumHelper {
             logger.e(e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
     }
 
 }

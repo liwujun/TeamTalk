@@ -88,6 +88,7 @@ import com.mogujie.tt.ui.widget.YayaEmoGridView;
 import com.mogujie.tt.utils.CommonUtil;
 import com.mogujie.tt.utils.IMUIHelper;
 import com.mogujie.tt.utils.Logger;
+import com.mogujie.tt.utils.PermissionUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
@@ -216,6 +217,8 @@ public class MessageActivity extends TTBaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        PermissionUtils.requestPermission(this, PermissionUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant);
+
         logger.d("message_activity#onCreate:%s", this);
         super.onCreate(savedInstanceState);
         currentSessionKey = getIntent().getStringExtra(IntentConstant.KEY_SESSION_KEY);
@@ -228,6 +231,7 @@ public class MessageActivity extends TTBaseActivity
         imServiceConnector.connect(this);
         EventBus.getDefault().register(this, SysConstant.MESSAGE_EVENTBUS_PRIORITY);
         logger.d("message_activity#register im service and eventBus");
+
     }
 
     // 触发条件,imservice链接成功，或者newIntent
@@ -558,6 +562,9 @@ public class MessageActivity extends TTBaseActivity
     private void initAlbumHelper() {
         albumHelper = AlbumHelper.getHelper(MessageActivity.this);
         albumList = albumHelper.getImagesBucketList(false);
+        if (albumList==null){
+            albumList=new ArrayList<ImageBucket>();
+        }
     }
 
     private void initEmo() {
